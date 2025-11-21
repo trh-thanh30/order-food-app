@@ -3,8 +3,17 @@ module.exports = function (api) {
   return {
     presets: ['babel-preset-expo'],
     plugins: [
-      // Required for expo-router
       'expo-router/babel',
+      'nativewind/babel',
+      [
+        'module-resolver',
+        {
+          extensions: ['.ts', '.tsx', '.js', '.jsx', '.json'],
+          alias: {
+            '@': './src',
+          },
+        },
+      ],
     ],
   };
 };

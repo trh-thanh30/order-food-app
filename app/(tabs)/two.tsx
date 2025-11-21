@@ -1,31 +1,38 @@
-import { StyleSheet } from 'react-native';
+import { ScrollView, Text, View } from 'react-native';
 
-import EditScreenInfo from '../../components/EditScreenInfo';
-import { Text, View } from '../../components/Themed';
+import { Button, Card, OrderStatusBadge } from '@/components';
+import { useCart } from '@/hooks';
 
 export default function TabTwoScreen() {
+  const { items, total, clearCart } = useCart();
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Tab Two</Text>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <EditScreenInfo path="app/(tabs)/two.tsx" />
-    </View>
+    <ScrollView className="flex-1 bg-neutral-50 p-4">
+      <Text className="mb-4 text-2xl font-semibold text-neutral-900">Đơn hàng của bạn</Text>
+      <Card>
+        <View className="gap-3">
+          {items.length === 0 ? (
+            <Text className="text-base text-neutral-600">Giỏ hàng đang trống.</Text>
+          ) : (
+            items.map((item) => (
+              <View key={item.id} className="flex-row items-center justify-between">
+                <View>
+                  <Text className="font-medium text-neutral-900">
+                    {item.quantity} x {item.name}
+                  </Text>
+                  <Text className="text-sm text-neutral-500">{item.price}đ</Text>
+                </View>
+                <OrderStatusBadge status="pending" />
+              </View>
+            ))
+          )}
+          <View className="flex-row items-center justify-between pt-2">
+            <Text className="text-lg font-semibold text-neutral-900">Tổng</Text>
+            <Text className="text-lg font-semibold text-brand-primary">{total}đ</Text>
+          </View>
+          {items.length > 0 && <Button label="Xoá giỏ hàng" variant="ghost" onPress={clearCart} />}
+        </View>
+      </Card>
+    </ScrollView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%',
-  },
-});

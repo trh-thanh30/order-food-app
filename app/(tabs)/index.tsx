@@ -1,31 +1,47 @@
-import { StyleSheet } from 'react-native';
+import { ScrollView, Text, View } from 'react-native';
 
-import EditScreenInfo from '../../components/EditScreenInfo';
-import { Text, View } from '../../components/Themed';
+import { Button, RestaurantCard } from '@/components';
+import type { IRestaurant } from '@/types/food';
+
+const restaurants: IRestaurant[] = [
+  {
+    id: '1',
+    name: 'Pizza 365',
+    rating: 4.7,
+    deliveryTimeMinutes: 25,
+    distanceKm: 1.5,
+    heroImage:
+      'https://images.unsplash.com/photo-1608039829574-7536250aeb91?auto=format&fit=crop&w=800&q=80',
+    menu: [],
+  },
+  {
+    id: '2',
+    name: 'Sushi Corner',
+    rating: 4.9,
+    deliveryTimeMinutes: 35,
+    distanceKm: 2.1,
+    heroImage:
+      'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=800&q=80',
+    menu: [],
+  },
+];
 
 export default function TabOneScreen() {
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Tab One</Text>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <EditScreenInfo path="app/(tabs)/index.tsx" />
-    </View>
+    <ScrollView className="flex-1 bg-neutral-50 p-4">
+      <View className="mb-6 flex-row items-end justify-between">
+        <View>
+          <Text className="text-sm text-neutral-500">Xin chào 👋</Text>
+          <Text className="text-2xl font-semibold text-neutral-900">Đặt món nhanh chóng</Text>
+        </View>
+        <Button label="Khuyến mãi" variant="secondary" onPress={() => {}} />
+      </View>
+
+      <View className="gap-4">
+        {restaurants.map((restaurant) => (
+          <RestaurantCard key={restaurant.id} restaurant={restaurant} />
+        ))}
+      </View>
+    </ScrollView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%',
-  },
-});
